@@ -1,15 +1,9 @@
 "use client";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { generalInformationSchema, GeneralInformationValues } from "../schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Form } from "@/components/ui/form";
+import { InputField } from "@/components/common/hook-form/InputField";
 export const GeneralInformationForm = () => {
   const form = useForm<GeneralInformationValues>({
     resolver: zodResolver(generalInformationSchema),
@@ -17,6 +11,10 @@ export const GeneralInformationForm = () => {
       title: "",
       description: "",
     },
+  });
+
+  const onSubmit = form.handleSubmit((data) => {
+    console.log("the data", data);
   });
   return (
     <div>
@@ -27,22 +25,23 @@ export const GeneralInformationForm = () => {
         </p>
       </header>
       <main>
-        <Form {...form}>
-          <form onSubmit={() => alert("suubmit")}>
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Project Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Ex: My school resume" {...field} />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-          </form>
-        </Form>
+        <FormProvider {...form}>
+          <Form {...form}>
+            <form onSubmit={onSubmit}>
+              <InputField
+                name="title"
+                label="Project name"
+                placeholder="Ex: School Resume"
+              />
+              <InputField
+                name="description"
+                label="Description"
+                placeholder="Ex: For applying to school"
+              />
+              <input type="submit" value="submit" />
+            </form>
+          </Form>
+        </FormProvider>
       </main>
     </div>
   );
