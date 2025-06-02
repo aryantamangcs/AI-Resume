@@ -3,9 +3,9 @@ import { FC } from "react";
 import React from "react";
 const Layout: FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <div>
+    <div className="w-screen h-screen flex flex-col">
       <MainNavBar />
-      {children}
+      <div className="grow">{children}</div>
     </div>
   );
 };
