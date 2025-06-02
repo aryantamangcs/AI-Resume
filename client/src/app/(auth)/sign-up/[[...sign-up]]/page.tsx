@@ -1,11 +1,7 @@
-import { SignUp } from "@clerk/nextjs";
+import { SignUpView } from "@/modules/auth/components/SignUpView";
 
 const Page = () => {
-  return (
-    <div className="flex w-screen h-screen justify-center items-center">
-      <SignUp />
-    </div>
-  );
+  return <SignUpView />;
 };
 
 export default Page;
