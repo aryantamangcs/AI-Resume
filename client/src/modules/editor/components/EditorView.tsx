@@ -1,14 +1,34 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { FC } from "react";
-import { GeneralInformationForm } from "../forms/GeneralInformationForm";
-import { PersonalInformationForm } from "../forms/PersonalInformationForm";
+import { FC, useEffect, useState } from "react";
+import { EditorBreadCrumbs } from "./EditorBreadCrumbs";
+import EditorSteps, { StepsInferface } from "../steps";
 export const EditorView = () => {
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [currentStep, setCurrentStep] = useState<StepsInferface | null>(null);
+
+  const nextStep = () => {
+    setCurrentIndex((currentIndex) => currentIndex + 1);
+  };
+  const previousStep = () => {
+    setCurrentIndex((currentIndex) => currentIndex - 1);
+  };
+
+  useEffect(() => {
+    setCurrentStep(EditorSteps[currentIndex]);
+  }, [currentIndex]);
+
+  if (!currentStep) return;
   return (
     <div className="w-screen flex flex-col h-full">
       <EditorHeader />
-      <EditorCanvas />
-      <EditorFooter />
+      <EditorCanvas currentStep={currentStep} />
+      <EditorFooter
+        nextStep={nextStep}
+        previousStep={previousStep}
+        currentIndex={currentIndex}
+      />
     </div>
   );
 };
@@ -24,14 +44,34 @@ const EditorHeader: FC = () => {
     </header>
   );
 };
+interface EditorFooterProps {
+  nextStep: () => void;
+  previousStep: () => void;
+  currentIndex: number;
+}
 
-const EditorFooter: FC = () => {
+const EditorFooter: FC<EditorFooterProps> = ({
+  nextStep,
+  previousStep,
+  currentIndex,
+}) => {
+  const total_steps: number = EditorSteps.length;
+
+  const showPrevious = () => currentIndex !== 0;
+  const showNext = () => {
+    if (currentIndex > total_steps - 2) return false;
+    return true;
+  };
   return (
     <div className="flex justify-center w-full border-t">
       <footer className="flex justify-between p-4 w-full max-w-[1000px]">
         <div className="flex gap-4 items-center">
-          <Button variant="secondary">Previous Step</Button>
-          <Button>Next Step</Button>
+          {showPrevious() && (
+            <Button variant="secondary" onClick={previousStep}>
+              Previous Step
+            </Button>
+          )}
+          {showNext() && <Button onClick={nextStep}>Next Step</Button>}
         </div>
         <div className="flex gap-4 items-center">
           <Button variant="secondary" asChild>
@@ -44,12 +84,16 @@ const EditorFooter: FC = () => {
   );
 };
 
-const EditorCanvas: FC = () => {
+interface EditorCanvasProps {
+  currentStep: StepsInferface;
+}
+const EditorCanvas: FC<EditorCanvasProps> = ({ currentStep }) => {
+  const CurrentStepComponent = currentStep.component;
   return (
     <main className="grow flex">
-      <div className="w-full md:w-1/2 p-4">
-        {/* <GeneralInformationForm /> */}
-        <PersonalInformationForm />
+      <div className="w-full md:w-1/2 p-4 flex flex-col gap-4">
+        <EditorBreadCrumbs steps={EditorSteps} currentStep={currentStep} />
+        <CurrentStepComponent />
       </div>
       <div className="w-1/2 md:flex hidden border-l p-4">right</div>
     </main>
