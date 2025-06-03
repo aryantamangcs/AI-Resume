@@ -7,4 +7,28 @@ export const generalInformationSchema = z.object({
   description: OptionalString,
 });
 
+export const personalInformationSchema = z.object({
+  photo: z
+    .custom<File | undefined>()
+    .refine(
+      (file) =>
+        !file || (file instanceof File && file.type.startsWith("image/")),
+      "Must be an image file",
+    )
+    .refine(
+      (file) => !file || file.size <= 1024 * 1024 * 4,
+      "Image must be less than 4 MB",
+    ),
+  first_name: OptionalString,
+  last_name: OptionalString,
+  job_title: OptionalString,
+  city: OptionalString,
+  country: OptionalString,
+  email: OptionalString,
+  phone: OptionalString,
+});
+
 export type GeneralInformationValues = z.infer<typeof generalInformationSchema>;
+export type PersonalInformationValues = z.infer<
+  typeof personalInformationSchema
+>;

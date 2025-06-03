@@ -8,7 +8,7 @@ import { dark } from "@clerk/themes";
 export const MainNavBar = () => {
   const { theme } = useTheme();
   return (
-    <div className="w-screen px-4 py-1 shadow-sm flex justify-center">
+    <div className="w-screen px-4 py-1 border-b flex justify-center">
       <header className="flex items-center justify-between w-screen max-w-[1000px]">
         <div>
           <Logo />

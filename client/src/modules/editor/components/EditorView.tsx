@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { FC } from "react";
 import { GeneralInformationForm } from "../forms/GeneralInformationForm";
+import { PersonalInformationForm } from "../forms/PersonalInformationForm";
 export const EditorView = () => {
   return (
     <div className="w-screen flex flex-col h-full">
@@ -47,7 +48,8 @@ const EditorCanvas: FC = () => {
   return (
     <main className="grow flex">
       <div className="w-full md:w-1/2 p-4">
-        <GeneralInformationForm />
+        {/* <GeneralInformationForm /> */}
+        <PersonalInformationForm />
       </div>
       <div className="w-1/2 md:flex hidden border-l p-4">right</div>
     </main>
