@@ -4,6 +4,7 @@ import { PersonalInformationForm } from "./forms/PersonalInformationForm";
 import { WorkExperienceForm } from "./forms/WorkExperienceInformation";
 import { EducationsForm } from "./forms/EductaionsForm";
 import { SkillsForm } from "./forms/SkillsForm";
+import { SummaryForm } from "./forms/SummaryForm";
 
 export interface StepsInferface {
   title: string;
@@ -35,6 +36,11 @@ const EditorSteps: Array<StepsInferface> = [
     title: "Skills",
     key: "skills",
     component: SkillsForm,
+  },
+  {
+    title: "Summary",
+    key: "summary",
+    component: SummaryForm,
   },
 ];
 

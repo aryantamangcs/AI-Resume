@@ -1,6 +1,11 @@
 "use client";
 import { FormProvider, useForm } from "react-hook-form";
-import { skillsSchema, SkillsValues } from "../schemas";
+import {
+  skillsSchema,
+  SkillsValues,
+  summarySchema,
+  SummaryValue,
+} from "../schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -13,14 +18,15 @@ import { FC, useEffect } from "react";
 import { EditorFormProps } from "@/interfaces";
 import { debounce } from "lodash";
 import { Textarea } from "@/components/ui/textarea";
-export const SkillsForm: FC<EditorFormProps> = ({
+import { TextAreaField } from "@/components/common/hook-form/TextAreaField";
+export const SummaryForm: FC<EditorFormProps> = ({
   resumeData,
   setResumeData,
 }) => {
-  const form = useForm<SkillsValues>({
-    resolver: zodResolver(skillsSchema),
+  const form = useForm<SummaryValue>({
+    resolver: zodResolver(summarySchema),
     defaultValues: {
-      skills: resumeData?.skills || [],
+      summary: resumeData?.summary || "",
     },
   });
   useEffect(() => {
@@ -31,11 +37,7 @@ export const SkillsForm: FC<EditorFormProps> = ({
     const subscription = form.watch((values) => {
       setResumeData({
         ...resumeData,
-        skills:
-          values?.skills
-            ?.filter((exp) => exp !== undefined)
-            ?.map((skill) => skill.trim())
-            ?.filter((skill) => skill !== "") || [],
+        summary: values?.summary,
       });
       debounceValidate();
     });
@@ -52,32 +54,20 @@ export const SkillsForm: FC<EditorFormProps> = ({
   return (
     <div>
       <header className="text-center">
-        <h2 className="font-semibold text-xl">Skills</h2>
+        <h2 className="font-semibold text-xl">A Professional Summary</h2>
+        <p className="text-muted-foreground text-sm">
+          Write a short introduction for your resume or let AI generate one from
+          your entered data
+        </p>
       </header>
       <main>
         <FormProvider {...form}>
           <Form {...form}>
             <form onSubmit={onSubmit}>
-              <FormField
-                control={form.control}
-                name="skills"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Textarea
-                        {...field}
-                        className="h-[150px]"
-                        onChange={(e) => {
-                          const skills = e.target.value.split(",");
-                          field.onChange(skills);
-                        }}
-                      />
-                    </FormControl>
-                    <FormDescription>
-                      Use comma to seperate the skills.
-                    </FormDescription>
-                  </FormItem>
-                )}
+              <TextAreaField
+                name="summary"
+                label="Professional Summary"
+                placeholder="A brief engagin text about yourself"
               />
             </form>
           </Form>

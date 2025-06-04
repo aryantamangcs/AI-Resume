@@ -23,14 +23,16 @@ export const EditorBreadCrumbs: FC<EditorBreadCrumbsProps> = ({
     <Breadcrumb className="flex justify-center" suppressHydrationWarning>
       <BreadcrumbList>
         {steps.map((step, index) => (
-          <BreadcrumbItem key={index}>
-            <BreadcrumbLink
-              className={isCurrent(step.key) ? "font-bold text-black" : ""}
-            >
-              {step?.title}
-            </BreadcrumbLink>
-            {/* <BreadcrumbSeparator /> */}
-          </BreadcrumbItem>
+          <div key={index} className="flex items-center gap-3">
+            <BreadcrumbItem>
+              <BreadcrumbLink
+                className={isCurrent(step.key) ? "font-bold text-black" : ""}
+              >
+                {step?.title}
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+          </div>
         ))}
       </BreadcrumbList>
     </Breadcrumb>
