@@ -26,7 +26,11 @@ export const EditorBreadCrumbs: FC<EditorBreadCrumbsProps> = ({
           <div key={index} className="flex items-center gap-3">
             <BreadcrumbItem>
               <BreadcrumbLink
-                className={isCurrent(step.key) ? "font-bold text-black" : ""}
+                className={
+                  isCurrent(step.key)
+                    ? "font-bold text-black dark:text-white"
+                    : ""
+                }
               >
                 {step?.title}
               </BreadcrumbLink>
