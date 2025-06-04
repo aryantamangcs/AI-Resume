@@ -4,6 +4,7 @@ import {
   FormLabel,
   FormItem,
   FormControl,
+  FormDescription,
 } from "@/components/ui/form";
 import { FC } from "react";
 import { twMerge } from "tailwind-merge";
@@ -11,9 +12,10 @@ import { Textarea } from "@/components/ui/textarea";
 
 interface TextAreaFieldProps {
   name: string;
-  label: string;
+  label?: string;
   placeholder?: string;
   className?: string;
+  description?: string;
 }
 
 export const TextAreaField: FC<TextAreaFieldProps> = ({
@@ -21,6 +23,7 @@ export const TextAreaField: FC<TextAreaFieldProps> = ({
   label,
   placeholder,
   className,
+  description,
 }) => {
   const { control } = useFormContext();
 
@@ -39,6 +42,7 @@ export const TextAreaField: FC<TextAreaFieldProps> = ({
                 className="h-[150px]"
               />
             </FormControl>
+            {description && <FormDescription>{description}</FormDescription>}
           </FormItem>
         )}
       />
