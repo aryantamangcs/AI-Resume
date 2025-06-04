@@ -56,22 +56,22 @@ const EditorFooter: FC<EditorFooterProps> = ({
   currentIndex,
 }) => {
   const total_steps: number = EditorSteps.length;
-
-  const showPrevious = () => currentIndex !== 0;
-  const showNext = () => {
-    if (currentIndex > total_steps - 2) return false;
-    return true;
-  };
+  const disablePrevious = () => currentIndex == 0;
+  const disableNext = () => currentIndex > total_steps - 2;
   return (
     <div className="flex justify-center w-full border-t">
       <footer className="flex justify-between p-4 w-full max-w-[1000px]">
         <div className="flex gap-4 items-center">
-          {showPrevious() && (
-            <Button variant="secondary" onClick={previousStep}>
-              Previous Step
-            </Button>
-          )}
-          {showNext() && <Button onClick={nextStep}>Next Step</Button>}
+          <Button
+            variant="secondary"
+            onClick={previousStep}
+            disabled={disablePrevious()}
+          >
+            Previous Step
+          </Button>
+          <Button onClick={nextStep} disabled={disableNext()}>
+            Next Step
+          </Button>
         </div>
         <div className="flex gap-4 items-center">
           <Button variant="secondary" asChild>
