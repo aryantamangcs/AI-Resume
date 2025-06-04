@@ -28,13 +28,27 @@ export const personalInformationSchema = z.object({
   phone: OptionalString,
 });
 
+export const workExperienceSchema = z
+  .array(
+    z.object({
+      position: OptionalString,
+      company: OptionalString,
+      start_date: OptionalString,
+      end_date: OptionalString,
+      description: OptionalString,
+    }),
+  )
+  .optional();
+
 export const resumeSchema = z.object({
   ...generalInformationSchema.shape,
   ...personalInformationSchema.shape,
+  ...workExperienceSchema.shape,
 });
 
 export type GeneralInformationValues = z.infer<typeof generalInformationSchema>;
 export type PersonalInformationValues = z.infer<
   typeof personalInformationSchema
 >;
+export type WorkExperienceValues = z.infer<typeof workExperienceSchema>;
 export type ResumeValues = z.infer<typeof resumeSchema>;
