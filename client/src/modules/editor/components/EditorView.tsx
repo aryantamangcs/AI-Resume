@@ -4,6 +4,7 @@ import Link from "next/link";
 import { FC, useEffect, useState } from "react";
 import { EditorBreadCrumbs } from "./EditorBreadCrumbs";
 import EditorSteps, { StepsInferface } from "../steps";
+import { ResumeValues } from "../schemas";
 export const EditorView = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [currentStep, setCurrentStep] = useState<StepsInferface | null>(null);
@@ -89,13 +90,20 @@ interface EditorCanvasProps {
 }
 const EditorCanvas: FC<EditorCanvasProps> = ({ currentStep }) => {
   const CurrentStepComponent = currentStep.component;
+  const [resumeData, setResumeData] = useState<ResumeValues>();
+
   return (
     <main className="grow flex">
       <div className="w-full md:w-1/2 p-4 flex flex-col gap-4">
         <EditorBreadCrumbs steps={EditorSteps} currentStep={currentStep} />
-        <CurrentStepComponent />
+        <CurrentStepComponent
+          resumeData={resumeData}
+          setResumeData={setResumeData}
+        />
       </div>
-      <div className="w-1/2 md:flex hidden border-l p-4">right</div>
+      <div className="w-1/2 md:flex hidden border-l p-4">
+        <pre>{JSON.stringify(resumeData, null, 2)}</pre>
+      </div>
     </main>
   );
 };

@@ -28,7 +28,13 @@ export const personalInformationSchema = z.object({
   phone: OptionalString,
 });
 
+export const resumeSchema = z.object({
+  ...generalInformationSchema.shape,
+  ...personalInformationSchema.shape,
+});
+
 export type GeneralInformationValues = z.infer<typeof generalInformationSchema>;
 export type PersonalInformationValues = z.infer<
   typeof personalInformationSchema
 >;
+export type ResumeValues = z.infer<typeof resumeSchema>;

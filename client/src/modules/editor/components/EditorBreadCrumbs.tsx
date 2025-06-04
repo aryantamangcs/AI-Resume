@@ -20,16 +20,16 @@ export const EditorBreadCrumbs: FC<EditorBreadCrumbsProps> = ({
     return key === currentStep.key;
   };
   return (
-    <Breadcrumb className="flex justify-center">
+    <Breadcrumb className="flex justify-center" suppressHydrationWarning>
       <BreadcrumbList>
         {steps.map((step, index) => (
           <BreadcrumbItem key={index}>
             <BreadcrumbLink
               className={isCurrent(step.key) ? "font-bold text-black" : ""}
             >
-              {step.title}
+              {step?.title}
             </BreadcrumbLink>
-            <BreadcrumbSeparator />
+            {/* <BreadcrumbSeparator /> */}
           </BreadcrumbItem>
         ))}
       </BreadcrumbList>

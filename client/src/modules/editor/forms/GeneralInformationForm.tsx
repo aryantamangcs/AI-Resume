@@ -4,14 +4,35 @@ import { generalInformationSchema, GeneralInformationValues } from "../schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
 import { InputField } from "@/components/common/hook-form/InputField";
-export const GeneralInformationForm = () => {
+import { FC, useEffect } from "react";
+import { EditorFormProps } from "@/interfaces";
+import { debounce } from "lodash";
+export const GeneralInformationForm: FC<EditorFormProps> = ({
+  resumeData,
+  setResumeData,
+}) => {
   const form = useForm<GeneralInformationValues>({
     resolver: zodResolver(generalInformationSchema),
     defaultValues: {
-      title: "",
-      description: "",
+      title: resumeData?.title || "",
+      description: resumeData?.description || "",
     },
   });
+  useEffect(() => {
+    const debounceValidate = debounce(async () => {
+      await form.trigger();
+    }, 500);
+
+    const subscription = form.watch((values) => {
+      setResumeData({ ...resumeData, ...values });
+      debounceValidate();
+    });
+
+    return () => {
+      subscription.unsubscribe?.();
+      debounceValidate.cancel();
+    };
+  }, [form, resumeData, setResumeData]);
 
   const onSubmit = form.handleSubmit((data) => {
     console.log("the data", data);

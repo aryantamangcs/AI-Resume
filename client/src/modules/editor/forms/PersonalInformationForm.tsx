@@ -7,20 +7,42 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
 import { InputField } from "@/components/common/hook-form/InputField";
-export const PersonalInformationForm = () => {
+import { FC, useEffect } from "react";
+import { EditorFormProps } from "@/interfaces";
+import { debounce } from "lodash";
+export const PersonalInformationForm: FC<EditorFormProps> = ({
+  resumeData,
+  setResumeData,
+}) => {
   const form = useForm<PersonalInformationValues>({
     resolver: zodResolver(personalInformationSchema),
     defaultValues: {
-      photo: undefined,
-      first_name: "",
-      last_name: "",
-      job_title: "",
-      city: "",
-      country: "",
-      email: "",
-      phone: "",
+      photo: resumeData?.photo || undefined,
+      first_name: resumeData?.first_name || "",
+      last_name: resumeData?.last_name || "",
+      job_title: resumeData?.job_title || "",
+      city: resumeData?.city || "",
+      country: resumeData?.country || "",
+      email: resumeData?.email || "",
+      phone: resumeData?.phone || "",
     },
   });
+
+  useEffect(() => {
+    const debounceValidate = debounce(async () => {
+      await form.trigger();
+    }, 500);
+
+    const subscription = form.watch((values) => {
+      setResumeData({ ...resumeData, ...values });
+      debounceValidate();
+    });
+
+    return () => {
+      subscription.unsubscribe?.();
+      debounceValidate.cancel();
+    };
+  }, [form, resumeData, setResumeData]);
 
   const onSubmit = form.handleSubmit((data) => {
     console.log("the data", data);
