@@ -4,28 +4,23 @@ import {
   FormLabel,
   FormItem,
   FormControl,
-  FormDescription,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { FC } from "react";
 import { twMerge } from "tailwind-merge";
+import { Textarea } from "@/components/ui/textarea";
 
-interface InputFieldProps {
+interface TextAreaFieldProps {
   name: string;
   label: string;
   placeholder?: string;
-  type?: string;
   className?: string;
-  description?: string;
 }
 
-export const InputField: FC<InputFieldProps> = ({
+export const TextAreaField: FC<TextAreaFieldProps> = ({
   name,
   label,
   placeholder,
   className,
-  description,
-  type = "text",
 }) => {
   const { control } = useFormContext();
 
@@ -38,14 +33,12 @@ export const InputField: FC<InputFieldProps> = ({
           <FormItem>
             <FormLabel>{label}</FormLabel>
             <FormControl>
-              <Input
-                type={type}
+              <Textarea
                 placeholder={placeholder || ""}
                 {...field}
-                accept={type === "file" ? "image/*" : ""}
+                className="h-[150px]"
               />
             </FormControl>
-            {description && <FormDescription>{description}</FormDescription>}
           </FormItem>
         )}
       />

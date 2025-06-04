@@ -28,17 +28,19 @@ export const personalInformationSchema = z.object({
   phone: OptionalString,
 });
 
-export const workExperienceSchema = z
-  .array(
-    z.object({
-      position: OptionalString,
-      company: OptionalString,
-      start_date: OptionalString,
-      end_date: OptionalString,
-      description: OptionalString,
-    }),
-  )
-  .optional();
+export const workExperienceSchema = z.object({
+  work_experiences: z
+    .array(
+      z.object({
+        position: OptionalString,
+        company: OptionalString,
+        start_date: OptionalString,
+        end_date: OptionalString,
+        description: OptionalString,
+      }),
+    )
+    .optional(),
+});
 
 export const resumeSchema = z.object({
   ...generalInformationSchema.shape,
