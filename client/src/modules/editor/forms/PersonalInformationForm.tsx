@@ -25,6 +25,8 @@ export const PersonalInformationForm: FC<EditorFormProps> = ({
       country: resumeData?.country || "",
       email: resumeData?.email || "",
       phone: resumeData?.phone || "",
+      github: resumeData?.phone || "",
+      linkedin: resumeData?.phone || "",
     },
   });
 
@@ -79,6 +81,8 @@ export const PersonalInformationForm: FC<EditorFormProps> = ({
               </div>
               <InputField name="email" label="Email" type="email" />
               <InputField name="phone" label="Phone" type="number" />
+              <InputField name="github" label="Github" />
+              <InputField name="linkedin" label="Linked In" />
             </form>
           </Form>
         </FormProvider>

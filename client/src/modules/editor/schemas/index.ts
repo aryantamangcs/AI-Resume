@@ -26,6 +26,8 @@ export const personalInformationSchema = z.object({
   country: OptionalString,
   email: OptionalString,
   phone: OptionalString,
+  github: OptionalString,
+  linkedin: OptionalString,
 });
 
 export const workExperienceSchema = z.object({

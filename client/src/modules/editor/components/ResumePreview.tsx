@@ -2,6 +2,7 @@ import { useDimesions } from "@/hooks/useDimesions";
 import { FC, useEffect, useRef, useState } from "react";
 import { ResumeValues } from "../schemas";
 import Image from "next/image";
+import { Github, Linkedin, Phone } from "lucide-react";
 
 interface ResumePreviewProps {
   resumeData: ResumeValues;
@@ -52,6 +53,8 @@ const PersonalInformationHeader: FC<PersonalInformationProps> = ({
     email,
     city,
     country,
+    github,
+    linkedin,
   } = resumeData;
 
   const [photoSrc, setPhotoSrc] = useState(photo instanceof File ? "" : photo);
@@ -84,8 +87,18 @@ const PersonalInformationHeader: FC<PersonalInformationProps> = ({
             {city}
             {city && country ? "," : ""}
             {country}
-            {(city || country) && (phone || email) ? " • " : ""}
-            {[phone, email].filter(Boolean).join(" •  ")}
+            {github && (
+              <div className="flex gap-1 items-center">
+                <Github className="size-3" />
+                {github}
+              </div>
+            )}
+            {linkedin && (
+              <div className="flex gap-1 items-center">
+                <Linkedin className="size-3" />
+                {linkedin}
+              </div>
+            )}
           </div>
         </div>
       </header>
