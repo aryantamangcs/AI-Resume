@@ -2,7 +2,14 @@ import { useDimesions } from "@/hooks/useDimesions";
 import { FC, useEffect, useRef, useState } from "react";
 import { ResumeValues } from "../schemas";
 import Image from "next/image";
-import { Github, Linkedin, Phone } from "lucide-react";
+import {
+  BadgeCheckIcon,
+  BadgeIcon,
+  Github,
+  Linkedin,
+  Phone,
+} from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 interface ResumePreviewProps {
   resumeData: ResumeValues;
@@ -17,6 +24,9 @@ interface WorkExperiencePreviewProps {
   resumeData: ResumeValues;
 }
 interface EducationsPreviewProps {
+  resumeData: ResumeValues;
+}
+interface SkillsPreviewProps {
   resumeData: ResumeValues;
 }
 
@@ -36,6 +46,7 @@ export const ResumePreview: FC<ResumePreviewProps> = ({ resumeData }) => {
         <SummaryPreview resumeData={resumeData} />
         <WorkExperiencePreview resumeData={resumeData} />
         <EducationsPreview resumeData={resumeData} />
+        <SkillsPreview resumeData={resumeData} />
       </div>
     </div>
   );
@@ -189,6 +200,31 @@ const EducationsPreview: FC<EducationsPreviewProps> = ({ resumeData }) => {
             </div>
             <h3 className="mt-1 text-muted-foreground">{edu?.school}</h3>
           </div>
+        ))}
+      </main>
+    </div>
+  );
+};
+const SkillsPreview: FC<SkillsPreviewProps> = ({ resumeData }) => {
+  const { skills } = resumeData;
+
+  if (skills) if (skills.length === 0) return;
+
+  return (
+    <div className="border-t py-2 break-inside-avoid">
+      <header>
+        <h3 className="font-medium text-sm">Skills</h3>
+      </header>
+      <main className="text-xs text-gray-500 pt-2 whitespace-pre-line text-justify gap-4 flex">
+        {skills?.map((skill, index) => (
+          <Badge
+            variant="secondary"
+            key={index}
+            className="bg-black text-white dark:bg-white dark:text-black"
+          >
+            <BadgeCheckIcon />
+            {skill}
+          </Badge>
         ))}
       </main>
     </div>
