@@ -9,6 +9,21 @@ import { debounce } from "lodash";
 import { WorkExperienceItem } from "./components/WorkExperienceItem";
 import { Button } from "@/components/ui/button";
 import { PlusSquare } from "lucide-react";
+import {
+  closestCenter,
+  DndContext,
+  DragEndEvent,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 export const WorkExperienceForm: FC<EditorFormProps> = ({
   resumeData,
   setResumeData,
@@ -20,7 +35,7 @@ export const WorkExperienceForm: FC<EditorFormProps> = ({
     },
   });
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove, move } = useFieldArray({
     control: form.control,
     name: "work_experiences",
   });
@@ -54,6 +69,25 @@ export const WorkExperienceForm: FC<EditorFormProps> = ({
     });
   };
 
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  );
+
+  const handleDragEvent = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (over && active.id === over.id) {
+      const oldIndex = fields.findIndex((field) => field.id === active.id);
+      const newIndex = fields.findIndex((field) => field.id === over.id);
+      console.log("Old", oldIndex);
+      console.log("New", newIndex);
+      move(oldIndex, newIndex);
+      return arrayMove(fields, oldIndex, newIndex);
+    }
+  };
+
   const onSubmit = form.handleSubmit((data) => {
     console.log("the data", data);
   });
@@ -72,15 +106,27 @@ export const WorkExperienceForm: FC<EditorFormProps> = ({
               onSubmit={onSubmit}
               className="flex flex-col gap-4 scroll-auto"
             >
-              {fields.map((field, index) => {
-                return (
-                  <WorkExperienceItem
-                    key={index}
-                    index={index}
-                    remove={remove}
-                  />
-                );
-              })}
+              <DndContext
+                sensors={sensors}
+                collisionDetection={closestCenter}
+                onDragEnd={handleDragEvent}
+              >
+                <SortableContext
+                  items={fields}
+                  strategy={verticalListSortingStrategy}
+                >
+                  {fields.map((field, index) => {
+                    return (
+                      <WorkExperienceItem
+                        id={field.id}
+                        key={field.id}
+                        index={index}
+                        remove={remove}
+                      />
+                    );
+                  })}
+                </SortableContext>
+              </DndContext>
             </form>
           </Form>
           <Button onClick={addWorkExperience} className="w-fit my-4">
