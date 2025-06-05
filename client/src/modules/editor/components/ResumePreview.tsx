@@ -126,7 +126,7 @@ const SummaryPreview: FC<SummaryPreviewProps> = ({ resumeData }) => {
   return (
     <div className="border-t py-2 break-inside-avoid">
       <header>
-        <h3 className="font-medium text-sm">Professional Summary</h3>
+        <h3 className="font-medium text-sm uppercase">Professional Summary</h3>
       </header>
       <main className="text-xs text-gray-500 pt-2 whitespace-pre-line text-justify">
         {summary}
@@ -148,7 +148,7 @@ const WorkExperiencePreview: FC<WorkExperiencePreviewProps> = ({
   return (
     <div className="border-t py-2 break-inside-avoid">
       <header>
-        <h3 className="font-medium text-sm">Work Experience</h3>
+        <h3 className="font-medium text-sm uppercase">Work Experience</h3>
       </header>
       <main className="space-y-4 pt-4">
         {work_experiences?.map((exp, index) => (
@@ -187,7 +187,7 @@ const EducationsPreview: FC<EducationsPreviewProps> = ({ resumeData }) => {
   return (
     <div className="border-t py-2 break-inside-avoid">
       <header>
-        <h3 className="font-medium text-sm">Educations</h3>
+        <h3 className="font-medium text-sm uppercase">Educations</h3>
       </header>
       <main className="space-y-4 pt-4">
         {educations?.map((edu, index) => (
@@ -213,7 +213,7 @@ const SkillsPreview: FC<SkillsPreviewProps> = ({ resumeData }) => {
   return (
     <div className="border-t py-2 break-inside-avoid">
       <header>
-        <h3 className="font-medium text-sm">Skills</h3>
+        <h3 className="font-medium text-sm uppercase">Skills</h3>
       </header>
       <main className="text-xs text-gray-500 pt-2 whitespace-pre-line text-justify gap-4 flex flex-wrap">
         {skills?.map((skill, index) => (
