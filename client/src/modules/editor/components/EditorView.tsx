@@ -17,6 +17,17 @@ export const EditorView = () => {
     setCurrentIndex((currentIndex) => currentIndex - 1);
   };
 
+  const setCurrent = (key: string, index: number) => {
+    const step = EditorSteps.find((step) => {
+      return step.key === key;
+    });
+    if (step) {
+      setCurrentStep(step);
+
+      setCurrentIndex(index);
+    }
+  };
+
   useEffect(() => {
     setCurrentStep(EditorSteps[currentIndex]);
   }, [currentIndex]);
@@ -25,7 +36,7 @@ export const EditorView = () => {
   return (
     <div className="w-screen flex flex-col h-full">
       <EditorHeader />
-      <EditorCanvas currentStep={currentStep} />
+      <EditorCanvas currentStep={currentStep} setCurrent={setCurrent} />
       <EditorFooter
         nextStep={nextStep}
         previousStep={previousStep}
@@ -88,15 +99,20 @@ const EditorFooter: FC<EditorFooterProps> = ({
 
 interface EditorCanvasProps {
   currentStep: StepsInferface;
+  setCurrent: (key: string, index: number) => void;
 }
-const EditorCanvas: FC<EditorCanvasProps> = ({ currentStep }) => {
+const EditorCanvas: FC<EditorCanvasProps> = ({ currentStep, setCurrent }) => {
   const CurrentStepComponent = currentStep.component;
   const [resumeData, setResumeData] = useState<ResumeValues>();
 
   return (
     <main className="grow flex">
       <div className="w-full md:w-1/2 p-4 flex flex-col gap-4">
-        <EditorBreadCrumbs steps={EditorSteps} currentStep={currentStep} />
+        <EditorBreadCrumbs
+          steps={EditorSteps}
+          currentStep={currentStep}
+          setCurrent={setCurrent}
+        />
         <CurrentStepComponent
           resumeData={resumeData}
           setResumeData={setResumeData}
