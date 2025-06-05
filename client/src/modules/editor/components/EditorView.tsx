@@ -5,6 +5,7 @@ import { FC, useEffect, useState } from "react";
 import { EditorBreadCrumbs } from "./EditorBreadCrumbs";
 import EditorSteps, { StepsInferface } from "../steps";
 import { ResumeValues } from "../schemas";
+import { ResumePreview } from "./ResumePreview";
 export const EditorView = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [currentStep, setCurrentStep] = useState<StepsInferface | null>(null);
@@ -101,8 +102,8 @@ const EditorCanvas: FC<EditorCanvasProps> = ({ currentStep }) => {
           setResumeData={setResumeData}
         />
       </div>
-      <div className="w-1/2 md:flex hidden border-l p-4">
-        <pre>{JSON.stringify(resumeData, null, 2)}</pre>
+      <div className="w-1/2 md:flex hidden border-l p-4 bg-secondary justify-center">
+        <ResumePreview />
       </div>
     </main>
   );

@@ -59,7 +59,6 @@ export const GeneralInformationForm: FC<EditorFormProps> = ({
                 label="Description"
                 placeholder="Ex: For applying to school"
               />
-              <input type="submit" value="submit" />
             </form>
           </Form>
         </FormProvider>
