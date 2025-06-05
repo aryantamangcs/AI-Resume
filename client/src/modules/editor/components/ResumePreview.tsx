@@ -2,13 +2,7 @@ import { useDimesions } from "@/hooks/useDimesions";
 import { FC, useEffect, useRef, useState } from "react";
 import { ResumeValues } from "../schemas";
 import Image from "next/image";
-import {
-  BadgeCheckIcon,
-  BadgeIcon,
-  Github,
-  Linkedin,
-  Phone,
-} from "lucide-react";
+import { BadgeCheckIcon, Github, Linkedin } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 interface ResumePreviewProps {
@@ -29,6 +23,9 @@ interface EducationsPreviewProps {
 interface SkillsPreviewProps {
   resumeData: ResumeValues;
 }
+interface ProjectsPreviewProps {
+  resumeData: ResumeValues;
+}
 
 export const ResumePreview: FC<ResumePreviewProps> = ({ resumeData }) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -47,6 +44,7 @@ export const ResumePreview: FC<ResumePreviewProps> = ({ resumeData }) => {
         <WorkExperiencePreview resumeData={resumeData} />
         <EducationsPreview resumeData={resumeData} />
         <SkillsPreview resumeData={resumeData} />
+        <ProjectsPreview resumeData={resumeData} />
       </div>
     </div>
   );
@@ -98,6 +96,8 @@ const PersonalInformationHeader: FC<PersonalInformationProps> = ({
             {city}
             {city && country ? "," : ""}
             {country}
+            {(city || country) && (phone || email) ? " • " : ""}
+            {[phone, email].filter(Boolean).join(" • ")}
             {github && (
               <div className="flex gap-1 items-center">
                 <Github className="size-3" />
@@ -207,15 +207,15 @@ const EducationsPreview: FC<EducationsPreviewProps> = ({ resumeData }) => {
 };
 const SkillsPreview: FC<SkillsPreviewProps> = ({ resumeData }) => {
   const { skills } = resumeData;
-
-  if (skills) if (skills.length === 0) return;
+  if (!skills) return;
+  if (skills.length === 0) return;
 
   return (
     <div className="border-t py-2 break-inside-avoid">
       <header>
         <h3 className="font-medium text-sm">Skills</h3>
       </header>
-      <main className="text-xs text-gray-500 pt-2 whitespace-pre-line text-justify gap-4 flex">
+      <main className="text-xs text-gray-500 pt-2 whitespace-pre-line text-justify gap-4 flex flex-wrap">
         {skills?.map((skill, index) => (
           <Badge
             variant="secondary"
@@ -225,6 +225,33 @@ const SkillsPreview: FC<SkillsPreviewProps> = ({ resumeData }) => {
             <BadgeCheckIcon />
             {skill}
           </Badge>
+        ))}
+      </main>
+    </div>
+  );
+};
+
+const ProjectsPreview: FC<ProjectsPreviewProps> = ({ resumeData }) => {
+  const { projects } = resumeData;
+
+  if (!projects) return;
+  if (projects.length === 0) return;
+
+  return (
+    <div className="border-t py-2 break-inside-avoid">
+      <header>
+        <h3 className="font-medium text-sm uppercase">Projects</h3>
+      </header>
+      <main className="text-xs pt-2 whitespace-pre-line text-justify gap-4 flex flex-col">
+        {projects?.map((project, index) => (
+          <div key={index} className="text-xs font-medium">
+            <h3 className="">
+              {index + 1}. {project?.name}
+            </h3>
+            <p className="text-xs text-gray-500 pt-2 whitespace-pre-line">
+              {project?.description}
+            </p>
+          </div>
         ))}
       </main>
     </div>
