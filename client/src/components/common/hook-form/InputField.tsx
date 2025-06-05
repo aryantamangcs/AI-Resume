@@ -38,12 +38,21 @@ export const InputField: FC<InputFieldProps> = ({
           <FormItem>
             <FormLabel>{label}</FormLabel>
             <FormControl>
-              <Input
-                type={type}
-                placeholder={placeholder || ""}
-                {...field}
-                accept={type === "file" ? "image/*" : ""}
-              />
+              {type === "file" ? (
+                <Input
+                  type="file"
+                  accept="image/*"
+                  placeholder={placeholder || ""}
+                  name={field.name}
+                  ref={field.ref}
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    field.onChange(file);
+                  }}
+                />
+              ) : (
+                <Input type={type} placeholder={placeholder || ""} {...field} />
+              )}
             </FormControl>
             {description && <FormDescription>{description}</FormDescription>}
           </FormItem>

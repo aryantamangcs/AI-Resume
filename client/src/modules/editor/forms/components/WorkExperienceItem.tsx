@@ -26,7 +26,7 @@ export const WorkExperienceItem: FC<WorkExperienceItemInterface> = ({
         />
         <InputField
           name={`work_experiences[${index}].company`}
-          label="company"
+          label="Company"
           placeholder="Ex: ABC Company"
         />
         <div className="flex gap-4">

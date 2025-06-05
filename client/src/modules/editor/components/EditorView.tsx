@@ -103,7 +103,7 @@ const EditorCanvas: FC<EditorCanvasProps> = ({ currentStep }) => {
         />
       </div>
       <div className="w-1/2 md:flex hidden border-l p-4 bg-secondary justify-center">
-        <ResumePreview />
+        {resumeData && <ResumePreview resumeData={resumeData} />}
       </div>
     </main>
   );

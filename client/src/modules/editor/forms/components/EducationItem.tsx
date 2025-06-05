@@ -20,12 +20,12 @@ export const EducationItem: FC<EducationItemInterface> = ({
       <main>
         <InputField
           name={`educations[${index}].degree`}
-          label="Position"
+          label="Degree"
           placeholder="Ex: Bachelor in Computer Science"
         />
         <InputField
           name={`educations[${index}].school`}
-          label="company"
+          label="School/University"
           placeholder="Ex: ABC School/University "
         />
         <div className="flex gap-4">
