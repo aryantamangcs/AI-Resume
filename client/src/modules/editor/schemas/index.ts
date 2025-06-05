@@ -55,6 +55,16 @@ export const educationSchema = z.object({
     )
     .optional(),
 });
+export const projectSchema = z.object({
+  projects: z
+    .array(
+      z.object({
+        name: OptionalString,
+        description: OptionalString,
+      }),
+    )
+    .optional(),
+});
 
 export const skillsSchema = z.object({
   skills: z.array(z.string().optional()).optional(),
@@ -70,6 +80,7 @@ export const resumeSchema = z.object({
   ...educationSchema.shape,
   ...skillsSchema.shape,
   ...summarySchema.shape,
+  ...projectSchema.shape,
 });
 
 export type GeneralInformationValues = z.infer<typeof generalInformationSchema>;
@@ -80,4 +91,5 @@ export type WorkExperienceValues = z.infer<typeof workExperienceSchema>;
 export type EducationValues = z.infer<typeof educationSchema>;
 export type SkillsValues = z.infer<typeof skillsSchema>;
 export type SummaryValue = z.infer<typeof summarySchema>;
+export type projectValues = z.infer<typeof projectSchema>;
 export type ResumeValues = z.infer<typeof resumeSchema>;
